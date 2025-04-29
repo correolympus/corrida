@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corre Olympus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            background: #f9f9f9;
+            padding-top: 70px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #2e57a8;
+            padding: 15px 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 10px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar-logo {
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .navbar-logo span {
+            color: hsl(0, 0%, 100%);
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar-item {
+            margin-left: 30px;
+        }
+
+        .navbar-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-link:hover {
+            color: #99b2e3;
+        }
+
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Botão do WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            background: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('banner.jpg') no-repeat center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        header h1 span {
+            color: #2e57a8;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-inscreva {
+            display: inline-block;
+            background: #f33268;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-inscreva:hover {
+            background: #b41240;
+            transform: translateY(-3px);
+        }
+
+        /* Seções */
+        section {
+            padding: 60px 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            color: #333;
+        }
+
+        /* Carrossel Centralizado */
+        .carrossel-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .corrida-item {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .corrida-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .swiper {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+        }
+
+        .swiper-slide {
+            overflow: hidden;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .swiper-pagination-bullet {
+            background: white !important;
+            opacity: 0.7 !important;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #2e57a8 !important;
+            opacity: 1 !important;
+        }
+
+        .swiper-button-next, 
+        .swiper-button-prev {
+            color: white !important;
+            background: rgba(0, 0, 0, 0.3);
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50%;
+            backdrop-filter: blur(2px);
+        }
+
+        .swiper-button-next:after, 
+        .swiper-button-prev:after {
+            font-size: 1.2rem !important;
+        }
+
+        .corrida-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .corrida-info h3 {
+            color: #2e57a8;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .corrida-info p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Sobre o Organizador */
+        .sobre-organizador {
+            background: #f1faff;
+        }
+
+        .organizador-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .organizador-content img {
+            border-radius: 10px;
+            width: 300px;
+            height: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .organizador-text {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+        }
+
+        /* Seção Kit Corredor */
+        .kit-corredor {
+            background: #fff;
+        }
+
+        .kit-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .kit-item {
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .kit-item img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .kit-item img:hover {
+            transform: scale(1.05);
+        }
+
+        .kit-item h3 {
+            color: #2e57a8;
+            margin-bottom: 10px;
+        }
+
+        /* Formulário */
+        .formulario-inscricao {
+            background: #fff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn-enviar {
+            background: #2e57a8;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-enviar:hover {
+            background: #1d3d7a;
+        }
+
+        /* Seção PIX */
+        .pagamento-pix {
+            background: #f8f8f8;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+            border: 1px solid #f1faff;
+        }
+
+        .pagamento-pix h3 {
+            color: #2e57a8;
+            margin-bottom: 15px;
+        }
+
+        .valor-inscricao {
+            font-size: 1.5rem;
+            color: #2e57a8;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .pagamento-pix img {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            display: block;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: white;
+        }
+
+        .codigo-pix {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .codigo-pix input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-family: monospace;
+        }
+
+        .codigo-pix button {
+            background: #2e57a8;
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .codigo-pix button:hover {
+            background: #2aa899;
+        }
+
+        /* Aviso Comprovante */
+        .aviso-comprovante {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #ffc107;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        /* Rodapé */
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .navbar-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                padding: 20px 0;
+            }
+
+            .navbar-menu.active {
+                display: flex;
+            }
+
+            .navbar-item {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            .organizador-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .codigo-pix {
+                flex-direction: column;
+            }
+
+            .codigo-pix input {
+                border-radius: 5px 5px 0 0;
+            }
+
+            .codigo-pix button {
+                border-radius: 0 0 5px 5px;
+                padding: 10px;
+            }
+
+            .swiper {
+                height: 250px;
+            }
+
+            .corrida-item {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-logo">Corre <span>OLYMPUS</span></a>
+            <button class="navbar-toggle" id="navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="navbar-menu" id="navbar-menu">
+                <li class="navbar-item"><a href="#sobre-corrida" class="navbar-link">Corridas</a></li>
+                <li class="navbar-item"><a href="#kit" class="navbar-link">Kit</a></li>
+                <li class="navbar-item"><a href="#inscricao" class="navbar-link">Inscrição</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Botão do WhatsApp Flutuante -->
+    <a href="https://wa.me/5571992862943" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Cabeçalho -->
+    <header>
+        <div class="container">
+            <h1>Corre <span>OLYMPUS</span></h1>
+            <p>Data: 01/06/2025 | Local: Vila de Abrantes</p>
+            <a href="#inscricao" class="btn-inscreva">INSCREVA-SE</a>
+        </div>
+    </header>
+
+    <!-- Galeria de Corridas Anteriores com Carrossel -->
+    <section id="sobre-corrida" class="sobre-corrida">
+        <div class="container">
+            <h2>Nossas Corridas Anteriores</h2>
+            <p>Confira alguns dos nossos melhores momentos:</p>
+            
+            <div class="carrossel-container">
+                <div class="corrida-item">
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="ol1.jpg" alt="Corrida Olympus 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="ol2.jpg" alt="Corrida Olympus 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="ol3.jpg" alt="Corrida Olympus 3">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="ol4.jpg" alt="Corrida Olympus 4">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="ol5.jpg" alt="Corrida Olympus 5">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                    <div class="corrida-info">
+                        <h3>Corrida Olympus</h3>
+                        <p>Edições anteriores - Momentos emocionantes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Kit do Corredor -->
+    <section id="kit" class="kit-corredor">
+        <div class="container">
+            <h2>Kit do Corredor</h2>
+            <p style="text-align: center; margin-bottom: 30px;">Todo participante receberá um kit exclusivo com:</p>
+            
+            <div class="kit-container">
+                <!-- Camisa -->
+                <div class="kit-item">
+                    <img src="camisaa.png" alt="Camisa da Corrida">
+                    <h3>Camisa </h3>
+                    <p>Camisa personalizada</p>
+                </div>
+                
+                <!-- Medalha -->
+                <div class="kit-item">
+                    <img src="medalhasf.png" alt="Medalha da Corrida">
+                    <h3>Medalhas</h3>
+                    <p>Para o primeiro, segundo e terceiro lugar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário de Inscrição + PIX -->
+    <section id="inscricao" class="formulario-inscricao">
+        <div class="container">
+            <h2>Faça sua Inscrição</h2>
+            <form id="form-corrida">
+                <div class="form-group">
+                    <label for="nome">Nome Completo*</label>
+                    <input type="text" id="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail*</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone*</label>
+                    <input type="tel" id="telefone" required>
+                </div>
+                <div class="form-group">
+                    <label for="camisa">Tamanho da Camisa*</label>
+                    <select id="camisa" required>
+                        <option value="">Selecione</option>
+                        <option value="PP">PP</option>
+                        <option value="P">P</option>
+                        <option value="M">M</option>
+                        <option value="G">G</option>
+                        <option value="GG">GG</option>
+                        <option value="XG">XG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="percurso">Valor*</label>
+                    <select id="percurso" required onchange="atualizarValorPix()">
+                        <option value="">Selecione</option>
+                        <option value="5km">Individual - R$ 60,00</option>
+                        <option value="10km">Casadinha - R$ 100,00</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-enviar">ENVIAR INSCRIÇÃO</button>
+            </form>
+
+            <!-- Seção de Pagamento PIX -->
+            <div class="pagamento-pix">
+                <h3>Pagamento via PIX</h3>
+                
+                <div class="valor-inscricao" id="valor-inscricao">
+                    Selecione o percurso acima
+                </div>
+                
+                <p>Escaneie o QR Code abaixo ou copie o código para pagamento:</p>
+                
+                <img id="qr-code-pix" src="" alt="QR Code PIX" style="display: none; width: 200px; height: 200px; margin: 15px auto;">
+                
+                <div class="codigo-pix">
+                    <input type="text" id="codigo-pix" value="Selecione o percurso primeiro" readonly>
+                    <button onclick="copiarPix()">Copiar</button>
+                </div>
+                
+                <!-- Aviso sobre comprovante -->
+                <div class="aviso-comprovante">
+                    <p><i class="fas fa-info-circle"></i> <strong>Importante:</strong> Após realizar o pagamento, envie o comprovante para o WhatsApp (75) 98310-2524 para confirmar sua inscrição.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Corre Olympus. Todos os direitos reservados.</p>
+            <div style="margin-top: 15px;">
+                <a href="#" style="color: #fff; margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="color: #fff; margin: 0 10px;"><i class="fab fa-facebook"></i></a>
+                <a href="#" style="color: #fff; margin: 0 10px;"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script do SwiperJS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const toggle = document.getElementById('navbar-toggle');
+        const menu = document.getElementById('navbar-menu');
+
+        toggle.addEventListener('click', function() {
+            menu.classList.toggle('active');
+        });
+
+        // Smooth Scrolling for Nav Links
+        document.querySelectorAll('.navbar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+
+                menu.classList.remove('active');
+            });
+        });
+
+        // Inicializa o carrossel
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper('.swiper', {
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                autoplay: {
+                    delay: 3000,
+                },
+            });
+
+            atualizarValorPix();
+        });
+
+        // Função para atualizar o valor do PIX
+       // Função para atualizar o valor do PIX (versão corrigida)
+function atualizarValorPix() {
+    const percursoSelect = document.getElementById('percurso');
+    const valorInscricao = document.getElementById('valor-inscricao');
+    const qrCodePix = document.getElementById('qr-code-pix');
+    const codigoPix = document.getElementById('codigo-pix');
+    
+    if (percursoSelect.value === '5km') {
+        valorInscricao.textContent = 'Valor: R$ 60,00';
+        qrCodePix.src = "qr-60.jpg";  // Certifique-se que este arquivo existe
+        qrCodePix.style.display = 'block';
+        codigoPix.value = '00020101021126330014br.gov.bcb.pix011112185101536520400005303986540560.005802BR5923SAMUEL SANTANA DA SILVA6008PINTADAS62070503***63042FBD';
+    } 
+    else if (percursoSelect.value === '10km') {
+        valorInscricao.textContent = 'Valor: R$ 100,00';
+        qrCodePix.src = "qr-100.jpg";  // Certifique-se que este arquivo existe
+        qrCodePix.style.display = 'block';
+        codigoPix.value = '00020101021126330014br.gov.bcb.pix0111121851015365204000053039865406100.005802BR5923SAMUEL SANTANA DA SILVA6008PINTADAS62070503***630407D0';
+    } 
+    else {
+        valorInscricao.textContent = 'Selecione o valor acima';
+        qrCodePix.style.display = 'none';
+        codigoPix.value = 'Selecione o valor primeiro';
+    }
+}
+
+        // Função para copiar código PIX
+        function copiarPix() {
+            const percursoSelect = document.getElementById('percurso');
+            if (!percursoSelect.value) {
+                alert('Por favor, selecione um percurso primeiro.');
+                return;
+            }
+
+            const codigoPix = document.getElementById("codigo-pix");
+            codigoPix.select();
+            codigoPix.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Código PIX copiado! Agora é só colar no seu app de pagamentos.");
+        }
+
+        // Enviar dados para WhatsApp
+        document.getElementById('form-corrida').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const camisa = document.getElementById('camisa').value;
+            const percurso = document.getElementById('percurso').value;
+            const valor = percurso === '5km' ? '60' : '100';
+            
+            // Criar mensagem para WhatsApp
+            const mensagem = `*NOVA INSCRIÇÃO - CORRE OLYMPUS*%0A%0A` +
+                             `*Nome:* ${nome}%0A` +
+                             `*Telefone:* ${telefone}%0A` +
+                             `*E-mail:* ${email}%0A` +
+                             `*Tamanho da Camisa:* ${camisa}%0A` +
+                             `*Modalidade:* ${percurso === '5km' ? 'Individual (5km)' : 'Casadinha (10km)'}%0A` +
+                             `*Valor:* R$ ${valor},00`;
+            
+            // Abrir WhatsApp com a mensagem
+            window.open(`https://wa.me/5571992862943?text=${mensagem}`, '_blank');
+            
+            // Limpar formulário
+            this.reset();
+            atualizarValorPix();
+            
+            // Rolagem suave para a seção de pagamento
+            document.getElementById('pagamento-pix').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
